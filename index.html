@@ -1,0 +1,318 @@
+<html lang="en">
+<meta name="viewport" content="width=1024" />
+<head>
+    <title>Implementation of Strategy Design Pattern</title>
+
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:regular,semibold,italic,italicsemibold|PT+Sans:400,700,400italic,700italic|PT+Serif:400,700,400italic,700italic" rel="stylesheet" />
+    <link href="assets/impress.js/css/impress-demo.css" rel="stylesheet" />
+
+    <style>
+        .b {
+            display: inline-block;
+            -webkit-transition: 0.5s;
+            -moz-transition:    0.5s;
+            -ms-transition:     0.5s;
+            -o-transition:      0.5s;
+            transition:         0.5s;
+        }
+
+        /*
+            ... and we want 'positioning` word to move up a bit when the step gets
+            `present` class ...
+        */
+        .present .move-up {
+            -webkit-transform: translateY(-10px);
+            -moz-transform:    translateY(-10px);
+            -ms-transform:     translateY(-10px);
+            -o-transform:      translateY(-10px);
+            transform:         translateY(-10px);
+        }
+
+        /*
+            ... 'rotating' to rotate a quarter of a second later ...
+        */
+        .present .rotating {
+            -webkit-transform: rotate(-10deg);
+            -moz-transform:    rotate(-10deg);
+            -ms-transform:     rotate(-10deg);
+            -o-transform:      rotate(-10deg);
+            transform:         rotate(-10deg);
+
+            -webkit-transition-delay: 0.25s;
+            -moz-transition-delay:    0.25s;
+            -ms-transition-delay:     0.25s;
+            -o-transition-delay:      0.25s;
+            transition-delay:         0.25s;
+        }
+
+        /*
+            ... and 'scaling' to scale down after another quarter of a second.
+        */
+        .present .scaling-up {
+            -webkit-transform: scale(1.7);
+            -moz-transform:    scale(1.7);
+            -ms-transform:     scale(1.7);
+            -o-transform:      scale(1.7);
+            transform:         scale(1.7);
+
+            -webkit-transition-delay: 0.2s;
+            -moz-transition-delay:    0.2s;
+            -ms-transition-delay:     0.2s;
+            -o-transition-delay:      0.2s;
+            transition-delay:         0.2s;
+        }
+    </style>
+</head>
+<body>
+<div id="impress">
+    <div id="overview" class="step" data-y="-3000" data-scale="16"></div>
+
+    <div id="implementation-of-strategy-design-pattern" class="step" data-x="-1000" data-y="-3000" data-rotate="0">
+        <h1 style="font-size: 80px; text-align: center;" class="b move-up">Implementation of Strategy Design Pattern</h1>
+    </div>
+
+    <div id="strategy-pattern-structure" class="step" data-x="-1000" data-y="-2100" data-z="-100" data-rotate-x="-40" data-rotate-y="0">
+        <p>Strategy Pattern Base Structure</p><br>
+        <p><img src="assets/structure.png" alt="structure"></p>
+    </div>
+
+    <div id="strategy-pattern-example" class="step" data-x="-1000" data-y="-500" data-z="-400" data-rotate-y="0">
+        <p>Example Structure</p>
+        <p><img src="assets/example.png" alt="example"></p>
+    </div>
+
+    <div id="implementation-needed" class="step" data-x="0" data-y="-3000" data-rotate="0">
+        <p><b class="b scaling-up">Code please!!!</b></p>
+    </div>
+
+    <div id="coding-horror" class="step" data-x="-1000" data-y="-4800" data-z="0" data-rotate="90" style="font-size: 14px !important;">
+        <pre>
+            <code class="php5">
+                /**
+                * Import CSV.
+                */
+                public function import()
+                {
+                    $post = $this->input->post();
+
+                    // Checking for valid CSV strucuture code here...
+                    if (!$valid) {
+                        json_output(['error' => 'Bad CSV structure']);
+                    }
+
+                    // Upload CSV code here...
+                    $this->load->library('upload', $config);
+
+                    if (!$this->upload->do_upload()) {
+                        json_output(['error' => $this->upload->display_errors('', ''));
+                        exit();
+                    } else {
+                        $data = $this->upload->data();
+                    }
+
+                    // Parsing CSV, save to database, another validation for each column, etc...
+                    // 200+ lines of code lies here...
+
+                    // Output the data
+                    json_output([]);
+                }
+            </code>
+        </pre>
+    </div>
+
+    <div id="different-csv-structure" class="step" data-x="2000" data-y="-4800" data-rotate="-90" style="width: 1000px;" data-scale="4">
+        <p class="b" style="font-size: 50px;">WHAT IF WE NEED TO IMPORT WITH DIFFERENT CSV STRUCTURE?</b></p>
+    </div>
+
+    <div id="spaggethi-code" class="step" data-x="5500" data-y="-5200" data-scale="5">
+        <p style="line-height: 55px;"><span style="font-size: 36px;">You will face a</span><br> <b style="font-size: 87px;">spaggethi code</b></p>
+    </div>
+
+    <div id="refactor" class="step" data-x="7300" data-y="-3000" data-rotate="90" data-scale="4">
+        <p><b>Let's refactor this code using strategy pattern</b></p>
+    </div>
+
+    <div id="first-step" class="step" data-x="5300" data-y="-400" data-rotate="180" data-scale="4">
+        <p style="line-height: 70px;">
+            First:<br> <b style="font-size: 92px; margin-top: 5px;">We need to create a unique variable</b><br>
+            We will catch these unique variable to define which method that we will use
+        </p>
+    </div>
+
+    <div id="second-step" class="step" data-x="5300" data-y="-2800" data-rotate="180" data-z="-10000">
+        <p style="line-height: 70px;">
+            Second:<br> <b style="font-size: 92px; margin-top: 5px;">Create a class file as the strategist</b><br>
+            This class will determine which strategy will we use
+        </p>
+    </div>
+
+    <div id="second-step-example" style="font-size: 12px !important;" class="step" data-x="5300" data-y="-2800" data-rotate="180" data-z="-10500" data-rotate-x="90">
+        <pre>
+            <code class="php5">
+                class Import
+                {
+                    private $strategy = null;
+
+                    public function __construct(Array $posts)
+                    {
+                        switch ($posts['type']) {
+                            case 'booking':
+                                $this->strategy = new Booking($posts);
+                                break;
+                            case 'expedia':
+                                $this->strategy = new Expedia($posts);
+                                break;
+                        }
+                    }
+
+                    /**
+                    * Check data structure.
+                    *
+                    * @return array
+                    */
+                    public function checkStructure()
+                    {
+                        return $this->strategy->checkStructure();
+                    }
+
+                    /**
+                    * Run import.
+                    *
+                    * @return array
+                    */
+                    public function runImport()
+                    {
+                        return $this->strategy->run();
+                    }
+                }
+            </code>
+        </pre>
+    </div>
+
+    <div id="third-step" class="step" data-x="6000" data-y="-3400" data-rotate="90" data-z="-10500" data-rotate-x="0" data-rotate-y="0">
+        <p style="line-height: 70px;">
+            Third:<br> <b style="font-size: 92px; margin-top: 5px;">Create class file as the strategy</b><br>
+            This class will run the import etc...
+        </p>
+    </div>
+
+    <div id="third-step-example" style="font-size: 12px !important;" class="step" data-x="6000" data-y="-3400" data-rotate="90" data-z="-10500" data-rotate-x="90" data-rotate-y="0">
+        <pre>
+            <code class="php5">
+                class Booking
+                {
+                    private $post;
+
+                    public function __construct(Import $posts)
+                    {
+                        $this->post = $posts;
+                    }
+
+                    public function checkStructure()
+                    {
+                        // Check the structure
+                    }
+
+                    public function run()
+                    {
+                        // Run the import
+                    }
+                }
+
+                class Expedia
+                {
+                    private $post;
+
+                    public function __construct(Import $posts)
+                    {
+                        $this->post = $posts;
+                    }
+
+                    public function checkStructure()
+                    {
+                        // Check the structure
+                    }
+
+                    public function run()
+                    {
+                        // Run the import
+                    }
+                }
+            </code>
+        </pre>
+    </div>
+
+    <div id="fourth-step" class="step" data-x="-8000" data-y="-4800" data-scale="5">
+        <p style="line-height: 70px;">
+            Fourth:<br> <b style="font-size: 76px; margin-top: 5px;">Let's refactor our code</b><br>
+        </p>
+    </div>
+
+    <div id="fourth-step-example" style="font-size: 12px !important;" class="step" data-x="-10000" data-y="-6700" data-rotate="-90" data-scale="3">
+        <pre>
+            <code class="php5">
+                /**
+                * Import CSV.
+                */
+                public function import()
+                {
+                    $post = $this->input->post();
+
+                    // Upload CSV code here...
+                    $this->load->library('upload', $config);
+
+                    if (!$this->upload->do_upload()) {
+                        json_output(['error' => $this->upload->display_errors('', ''));
+                        exit();
+                    } else {
+                        $data = $this->upload->data();
+                    }
+
+                    require(APP_PATH_TO . '/Import.php');
+                    $import = new Import($post);
+                    $import->checkStructure();
+                    $datas = $import->runImport();
+
+                    // Output the data
+                    json_output([]);
+                }
+            </code>
+        </pre>
+    </div>
+
+    <div id="clean" class="step" data-x="-11000" data-y="-3500" data-rotate="-90" data-z="-40000" data-transition-speed="100">
+        <p>Cleaner, huh?!</p>
+    </div>
+
+    <div id="thanks" class="step" data-x="-11000" data-y="-3500" data-rotate="-90" data-z="-40000" data-rotate-x="90" data-transition-speed="100">
+        <p>I'm Reyhan, thanks for coming</p>
+        <br>
+        <p>
+            Please follow: <br>
+            &bullet; Twitter:<a href="https://twitter.com/reyhan_sofian">@reyhan_sofian</a> <br>
+            &bullet; Github: <a href="https://github.com/reyhansofian">reyhansofian</a> <br>
+            &bullet; Facebook: <a href="https://www.facebook.com/reyhan.sofian">reyhan.sofian</a>
+        </p>
+    </div>
+</div>
+<script src="assets/jquery-1.12.1.min.js"></script>
+<script src="assets/impress.js/js/impress.js"></script>
+<link href="assets/highlight.js/src/styles/solarized-dark.css" rel="stylesheet">
+<script src="assets/highlight.js/src/highlight.js"></script>
+<script>impress().init()</script>
+<script>
+    document.addEventListener('keyup', function (e) {
+        if (e.keyCode === 27) {
+            window.location.replace('index.html#/overview');
+        }
+
+    });
+
+    $(document).ready(function() {
+        $('pre code').each(function(i, block) {
+            hljs.highlightBlock(block);
+        });
+    });
+</script>
+</body>
+</html>
